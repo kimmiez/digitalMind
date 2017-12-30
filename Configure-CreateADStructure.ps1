@@ -17,40 +17,53 @@
     NA
 #>
 
+# Determine where to do the logging 
+$tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment 
+$logPath = $tsenv.Value("LogPath") 
+$logFile = "$logPath\$($myInvocation.MyCommand).log" 
+
+# Start the logging 
+Start-Transcript $logFile 
+Write-Host "Logging to $logFile" 
+
+
 #Create OU Structure
-New-AdOrganizationalUnit -Name "digitalMind"
+New-AdOrganizationalUnit -Name "dM"
 
-New-AdOrganizationalUnit -Name "Servers" -Path "OU=digitalMind,DC=digitalMind,DC=com"
+New-AdOrganizationalUnit -Name "Servers" -Path "OU=dM,DC=digitalMind,DC=com"
 
-New-AdOrganizationalUnit -Name "Workstations" -Path "OU=digitalMind,DC=digitalMind,DC=com"
+New-AdOrganizationalUnit -Name "Workstations" -Path "OU=dM,DC=digitalMind,DC=com"
 
-New-AdOrganizationalUnit -Name "Service Accounts" -Path "OU=digitalMind,DC=digitalMind,DC=com"
+New-AdOrganizationalUnit -Name "Service Accounts" -Path "OU=dM,DC=digitalMind,DC=com"
 
-New-AdOrganizationalUnit -Name "Security Groups" -Path "OU=digitalMind,DC=digitalMind,DC=com"
+New-AdOrganizationalUnit -Name "Security Groups" -Path "OU=dM,DC=digitalMind,DC=com"
 
-New-AdOrganizationalUnit -Name "Users" -Path "OU=digitalMind,DC=digitalMind,DC=com"
+New-AdOrganizationalUnit -Name "Users" -Path "OU=dM,DC=digitalMind,DC=com"
 
 #Create Service Account
 
-New-ADUser -Name "MDT_BA" -Description "MDT Build Account" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "MDT_BA" -Description "MDT Build Account" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "MDT_JD" -Description "MDT Join Domain Account" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "MDT_JD" -Description "MDT Join Domain Account" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "CM_NAA" -Description "ConfigMgr Network Access Account" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "CM_NAA" -Description "ConfigMgr Network Access Account" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "CM_CP" -Description "ConfigMgr Client Push Account" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "CM_CP" -Description "ConfigMgr Client Push Account" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "CM_SR" -Description "ConfigMgr Reporting Services Account" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "CM_SR" -Description "ConfigMgr Reporting Services Account" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "CM_JD" -Description "ConfigMgr Join Domain Account" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "CM_JD" -Description "ConfigMgr Join Domain Account" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Service Accounts,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
 
 #Create User Accounts
-New-ADUser -Name "KiHe" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Users,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "KiHe" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Users,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "Mike" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Users,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "Mike" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Users,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "Frank" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Users,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "Frank" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Users,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
-New-ADUser -Name "Bob" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -AsPlainText "P@ssw0rd") -PasswordNeverExpires $true -Path "OU=Users,OU=digitalMind,DC=digitalMind,DC=com"
+New-ADUser -Name "Bob" -Description "Standard User" -AccountPassword (ConvertTo-SecureString -String "P@ssw0rd" -AsPlainText -Force) -PasswordNeverExpires $true -Path "OU=Users,OU=dM,DC=digitalMind,DC=com" -Enabled $true
 
+
+# Stop logging 
+Stop-Transcript
